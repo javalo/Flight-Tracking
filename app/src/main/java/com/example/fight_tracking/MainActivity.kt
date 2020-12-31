@@ -4,13 +4,13 @@ import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     val fromCalendar = Calendar.getInstance()
     val toCalendar = Calendar.getInstance()
-    val airportList = Utils.generateAirportList()
+
+    lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,7 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         val airportNamesList = ArrayList<String>()
 
-        for (airport in airportList) {
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        for (airport in viewModel.getAirportListLiveData().value!!) {
             airportNamesList.add(airport.getFormattedName())
         }
 
@@ -69,8 +74,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun search(){
         // get the airport
-        val icao = airportList[spinner_airport.selectedItemPosition].icao
-
+        val icao = viewModel.getAirportListLiveData().value!![spinner_airport.selectedItemPosition].icao
         // check if isArrival true then change the value from false to true
         val isArrival = switch_type.isChecked
 
