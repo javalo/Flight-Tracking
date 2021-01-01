@@ -25,8 +25,6 @@ class FlightListActivity : AppCompatActivity() {
             if (it == null || it.isEmpty()) {
                 //DISPLAY ERROR
             } else {
-
-
                 // SetUp my recycleView
 
             }
