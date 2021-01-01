@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,23 +45,34 @@ class MainActivity : AppCompatActivity() {
 
         spinner_airport.adapter = adapter
 
-        displaySelectedDate(fromDate, fromCalendar)
-        displaySelectedDate(toDate, toCalendar)
+        viewModel.getBeginDateLiveData()
+            .observe(this, { displaySelectedDate(fromDate, it) })
 
-        fromDate.setOnClickListener { showDatePicker(fromDate, fromCalendar) }
-        toDate.setOnClickListener { showDatePicker(toDate, toCalendar) }
+        viewModel.getEndDateLiveData()
+            .observe(this, { displaySelectedDate(toDate, it) })
+
+        fromDate.setOnClickListener { showDatePicker(fromDate) }
+        toDate.setOnClickListener { showDatePicker(toDate) }
 
         searchButton.setOnClickListener { search() }
     }
 
-    private fun showDatePicker(textView: TextView, calendar: Calendar) {
+    private fun showDatePicker(clickedView: View) {
+        val calendar = if (clickedView.id == fromDate.id) {
+            viewModel.getBeginDateLiveData().value
+        } else {
+            viewModel.getEndDateLiveData().value
+        }
         val dpd = DatePickerDialog(
             this,
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                calendar.set(year,monthOfYear,dayOfMonth)
-                displaySelectedDate(textView, calendar)
+                if (clickedView.id == fromDate.id){
+                    viewModel.updateBeginCalendar(year, monthOfYear, dayOfMonth)
+                }else{
+                    viewModel.updateEndCalendar(year, monthOfYear, dayOfMonth)
+                }
             },
-            calendar.get(Calendar.YEAR),
+            calendar!!.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         )
@@ -79,10 +91,10 @@ class MainActivity : AppCompatActivity() {
         val isArrival = switch_type.isChecked
 
         // get the dates
-        val begin = fromCalendar.timeInMillis / 1000
-        val end = toCalendar.timeInMillis / 1000
+        //val begin = fromCalendar.timeInMillis / 1000
+        //val end = toCalendar.timeInMillis / 1000
 
-        Log.d("MainActivity", "icao = $icao, isArrival = $isArrival, begin = $begin, end = $end")
+        //Log.d("MainActivity", "icao = $icao, isArrival = $isArrival, begin = $begin, end = $end")
         // next call an other Activity
     }
 
