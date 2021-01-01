@@ -38,10 +38,9 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
                 Log.d("Request", "problem")
 
             } else {
-                Log.d("Request", result)
-
-
-                Log.d("Request", "Nooooooo Problem impecable")
+                val flightList = Utils.getFlightListFromString(result)
+                Log.d("models list", flightList.toString())
+                flightListLiveData.value = flightList
             }
         }
 
