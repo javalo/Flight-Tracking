@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_flight_list.*
 
-class FlightListActivity : AppCompatActivity() {
+class FlightListActivity : AppCompatActivity() ,  FlightListRecyclerAdapter.OnItemClickListener {
+
 
     lateinit var viewModel: FlightListViewModel
 
@@ -26,11 +29,19 @@ class FlightListActivity : AppCompatActivity() {
                 //DISPLAY ERROR
             } else {
                 // SetUp my recycleView
+                val adapter = FlightListRecyclerAdapter()
+                adapter.flightList = it
+                adapter.onItemClickListener= this
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
             }
         })
 
         }
 
+    override fun onItemClicked(flightName: String) {
+        //DO SOMETHING WHEN CLICKING ON THE FLIGHT NAME
+    }
 
 }
