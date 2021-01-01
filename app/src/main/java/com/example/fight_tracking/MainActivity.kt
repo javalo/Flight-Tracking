@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.content.Intent
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.TextView
@@ -96,6 +97,10 @@ class MainActivity : AppCompatActivity() {
 
         //Log.d("MainActivity", "icao = $icao, isArrival = $isArrival, begin = $begin, end = $end")
         // next call an other Activity
+
+
+        val i = Intent(this, FlightListActivity::class.java)
+        startActivity(i)
     }
 
 }
