@@ -100,6 +100,10 @@ class MainActivity : AppCompatActivity() {
 
 
         val i = Intent(this, FlightListActivity::class.java)
+        i.putExtra("begin", viewModel.getBeginDateLiveData().value!!.timeInMillis / 1000)
+        i.putExtra("end", viewModel.getEndDateLiveData().value!!.timeInMillis / 1000)
+        i.putExtra("icao", viewModel?.getAirportListLiveData().value?.get(spinner_airport.selectedItemPosition)?.icao)
+        i.putExtra("isArrival", switch_type.isChecked)
         startActivity(i)
     }
 
