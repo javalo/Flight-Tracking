@@ -3,6 +3,7 @@ package com.example.fight_tracking
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 
 class FlightListActivity : AppCompatActivity() {
 
@@ -20,6 +21,18 @@ class FlightListActivity : AppCompatActivity() {
                 intent.getLongExtra("begin", 0),
                 intent.getLongExtra("end", 0)
         )
+        viewModel.flightListLiveData.observe(this, Observer {
+            if (it == null || it.isEmpty()) {
+                //DISPLAY ERROR
+            } else {
 
-    }
+
+                // SetUp my recycleView
+
+            }
+        })
+
+        }
+
+
 }
