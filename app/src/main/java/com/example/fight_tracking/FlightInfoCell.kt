@@ -55,6 +55,20 @@ class FlightInfoCell : LinearLayout {
         arrHour = findViewById(R.id.arrival_hour)
     }
 
+
+    // CACA not a good architecture to be add here (the view ) shoud be in Adabter       but the reusebility we add here
+    fun bindData(flight : FlightModel ){
+        flightName?.text = "#"+ flight.callsign
+        depAirportName?.text = flight.estDepartureAirport
+        arrAirportName?.text = flight.estArrivalAirport
+        depDate?.text = Utils.timestampToString(flight.firstSeen * 1000L)
+        arrDate?.text = Utils.timestampToString(flight.lastSeen * 1000L)
+        depHour?.text = Utils.timestampToHourMinute(flight.firstSeen * 1000L)
+        arrHour?.text = Utils.timestampToHourMinute(flight.lastSeen * 1000L)
+        flightTime?.text = Utils.formatFlightDuration(flight.lastSeen - flight.firstSeen)
+    }
+
+
     private fun initLayout() {
         LayoutInflater.from(context).inflate(R.layout.flight_cell, this, true)
         bindViews()
