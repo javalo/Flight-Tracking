@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 
 class FlightInfoCell : LinearLayout {
@@ -24,6 +25,9 @@ class FlightInfoCell : LinearLayout {
     var depHour: TextView? = null
         private set
     var arrHour: TextView? = null
+        private set
+
+    var lineareLiyoutPrincipal: RelativeLayout? = null
         private set
 
 
@@ -53,12 +57,13 @@ class FlightInfoCell : LinearLayout {
         arrDate = findViewById(R.id.arrival_date)
         depHour = findViewById(R.id.departure_hour)
         arrHour = findViewById(R.id.arrival_hour)
+        lineareLiyoutPrincipal = findViewById(R.id.container)
     }
 
 
     // CACA not a good architecture to be add here (the view ) shoud be in Adabter       but the reusebility we add here
-    fun bindData(flight : FlightModel ){
-        flightName?.text = "#"+ flight.callsign
+    fun bindData(flight : FlightModel,  position: Int ){
+        flightName?.text = flight.callsign
         depAirportName?.text = flight.estDepartureAirport
         arrAirportName?.text = flight.estArrivalAirport
         depDate?.text = Utils.timestampToString(flight.firstSeen * 1000L)
@@ -66,6 +71,10 @@ class FlightInfoCell : LinearLayout {
         depHour?.text = Utils.timestampToHourMinute(flight.firstSeen * 1000L)
         arrHour?.text = Utils.timestampToHourMinute(flight.lastSeen * 1000L)
         flightTime?.text = Utils.formatFlightDuration(flight.lastSeen - flight.firstSeen)
+        if(position%2==0)
+            lineareLiyoutPrincipal?.setBackgroundColor(Color.parseColor("#e5f3f5"))
+        else
+            lineareLiyoutPrincipal?.setBackgroundColor(Color.parseColor("#FFFFFF"))
     }
 
 
