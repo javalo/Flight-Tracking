@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.lifecycle.LiveData
 
 class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
 
@@ -14,6 +15,13 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
     val flightListLiveData: MutableLiveData<List<FlightModel>> = MutableLiveData()
 
     val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
+
+    private val selectedFlightNameLiveData: MutableLiveData<String> = MutableLiveData()
+
+    fun getSelectedFlightNameLiveData(): LiveData<String> {
+        return selectedFlightNameLiveData
+    }
+
 
     fun search(icao: String, isArrival: Boolean, begin: Long, end: Long) {
 
@@ -45,6 +53,7 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
             if (result == null) {
                 Log.d("Request", "problem")
 
+
             } else {
                 val flightList = Utils.getFlightListFromString(result)
                 Log.d("models list", flightList.toString())
@@ -64,6 +73,9 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
         return params
     }
 
+    fun updateSelectedFlightName(flightName: String) {
+        selectedFlightNameLiveData.value = flightName
+    }
 
     override fun onRequestSuccess(result: String?) {
         TODO("Not yet implemented")

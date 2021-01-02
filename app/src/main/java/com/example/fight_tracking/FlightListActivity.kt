@@ -3,12 +3,10 @@ package com.example.fight_tracking
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_flight_list.*
-import android.view.View
+import androidx.fragment.app.FragmentTransaction
 
-class FlightListActivity : AppCompatActivity() ,  FlightListRecyclerAdapter.OnItemClickListener {
+
+class FlightListActivity : AppCompatActivity()  {
 
 
      lateinit var viewModel: FlightListViewModel
@@ -25,34 +23,19 @@ class FlightListActivity : AppCompatActivity() ,  FlightListRecyclerAdapter.OnIt
                 intent.getLongExtra("begin", 0),
                 intent.getLongExtra("end", 0)
         )
-        viewModel.flightListLiveData.observe(this, Observer {
-            if (it == null || it.isEmpty()) {
-                //DISPLAY ERROR
-            } else {
-                // SetUp my recycleView
-                val adapter = FlightListRecyclerAdapter()
-                adapter.flightList = it
-                adapter.onItemClickListener= this
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-            }
-        })
+        viewModel.getSelectedFlightNameLiveData().observe(this, {
+            //switch fragment
+            val newFragment: FlightDetailFragment = FlightDetailFragment.newInstance()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.activityContainer, newFragment)
+            transaction.addToBackStack(null)
 
+                transaction.commit()
+    })
 
-        viewModel.isLoadingLiveData.observe(this, Observer {
-            if (it) {
-                progressBar.visibility = View.VISIBLE
-            } else {
-                progressBar.visibility = View.INVISIBLE
-            }
-        })
-
-
-        }
-
-    override fun onItemClicked(flightName: String) {
-        //DO SOMETHING WHEN CLICKING ON THE FLIGHT NAME
     }
+
+
 
 }
