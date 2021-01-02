@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import kotlinx.android.synthetic.main.fragment_flight_detail.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +23,8 @@ class FlightDetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var viewModel: FlightListViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,6 +38,14 @@ class FlightDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+
+        viewModel = ViewModelProvider(requireActivity()).get(FlightListViewModel::class.java)
+        viewModel.getSelectedFlightNameLiveData().observe(this,{
+            flight_name.text = it
+        })
+
+
         return inflater.inflate(R.layout.fragment_flight_detail, container, false)
     }
 
