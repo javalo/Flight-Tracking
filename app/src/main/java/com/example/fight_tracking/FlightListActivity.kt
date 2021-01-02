@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_flight_list.*
+import android.view.View
 
 class FlightListActivity : AppCompatActivity() ,  FlightListRecyclerAdapter.OnItemClickListener {
 
 
-    lateinit var viewModel: FlightListViewModel
+     lateinit var viewModel: FlightListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +38,16 @@ class FlightListActivity : AppCompatActivity() ,  FlightListRecyclerAdapter.OnIt
 
             }
         })
+
+
+        viewModel.isLoadingLiveData.observe(this, Observer {
+            if (it) {
+                progressBar.visibility = View.VISIBLE
+            } else {
+                progressBar.visibility = View.INVISIBLE
+            }
+        })
+
 
         }
 

@@ -13,6 +13,7 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
 
     val flightListLiveData: MutableLiveData<List<FlightModel>> = MutableLiveData()
 
+    val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     fun search(icao: String, isArrival: Boolean, begin: Long, end: Long) {
 
@@ -31,9 +32,16 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
 
         viewModelScope.launch {
 
+            //start loading
+            isLoadingLiveData.value = true
+
             val result = withContext(Dispatchers.IO) {
                 RequestsManager.getSuspended(baseUrl, getRequestParams(searchDataModel))
             }
+
+            //end loading
+            isLoadingLiveData.value = false
+
             if (result == null) {
                 Log.d("Request", "problem")
 
