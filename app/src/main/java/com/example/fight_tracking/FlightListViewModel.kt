@@ -11,17 +11,15 @@ import androidx.lifecycle.LiveData
 
 class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
 
-
     val flightListLiveData: MutableLiveData<List<FlightModel>> = MutableLiveData()
 
     val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-    private val selectedFlightNameLiveData: MutableLiveData<String> = MutableLiveData()
+    private val selectedFlightInfoLiveData: MutableLiveData<List<String>> = MutableLiveData()
 
-    fun getSelectedFlightNameLiveData(): LiveData<String> {
-        return selectedFlightNameLiveData
+    fun getSelectedFlightInfoiveData(): LiveData<List<String>> {
+        return selectedFlightInfoLiveData
     }
-
 
     fun search(icao: String, isArrival: Boolean, begin: Long, end: Long) {
 
@@ -37,7 +35,6 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
             "https://opensky-network.org/api/flights/departure"
         }
 
-
         viewModelScope.launch {
 
             //start loading
@@ -52,7 +49,6 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
 
             if (result == null) {
                 Log.d("Request", "problem")
-
 
             } else {
                 val flightList = Utils.getFlightListFromString(result)
@@ -73,8 +69,8 @@ class FlightListViewModel : ViewModel(), RequestsManager.RequestListener {
         return params
     }
 
-    fun updateSelectedFlightName(flightName: String) {
-        selectedFlightNameLiveData.value = flightName
+    fun updateSelectedFlightInfo(flightInfo: List<String>) {
+        selectedFlightInfoLiveData.value = flightInfo
     }
 
     override fun onRequestSuccess(result: String?) {

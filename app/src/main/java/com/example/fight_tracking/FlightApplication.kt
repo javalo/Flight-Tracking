@@ -9,7 +9,6 @@ import android.content.res.Resources
 
 class FlightApplication : Application() {
 
-
     override fun onCreate() {
         super.onCreate()
         application = this

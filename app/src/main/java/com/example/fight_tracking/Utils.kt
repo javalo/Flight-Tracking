@@ -1,7 +1,12 @@
 package com.example.fight_tracking
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.util.Log
+import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonParser
@@ -201,5 +206,31 @@ class Utils private constructor() {
             }
         }
 
+
+        fun bitmapDescriptorFromVector(context: Context?, vectorResId: Int): BitmapDescriptor? {
+            if (context != null) {
+                val vectorDrawable = ContextCompat.getDrawable(context, vectorResId)
+                vectorDrawable!!.setBounds(
+                        0,
+                        0,
+                        vectorDrawable.intrinsicWidth,
+                        vectorDrawable.intrinsicHeight
+                )
+                val bitmap = Bitmap.createBitmap(
+                        vectorDrawable.intrinsicWidth,
+                        vectorDrawable.intrinsicHeight,
+                        Bitmap.Config.ARGB_8888
+                )
+                val canvas = Canvas(bitmap)
+                vectorDrawable.draw(canvas)
+                return BitmapDescriptorFactory.fromBitmap(bitmap)
+            }
+
+            return null
+        }
+
     }
+
+
+
 }

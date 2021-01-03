@@ -9,6 +9,7 @@ class MainViewModel: ViewModel(){
     private val airportListLiveData : MutableLiveData<List<Airport>> = MutableLiveData()
     private val beginDateLiveData : MutableLiveData<Calendar> = MutableLiveData()
     private val endDateLiveData : MutableLiveData<Calendar> = MutableLiveData()
+    private val flighInfoLiveData : MutableLiveData<String> = MutableLiveData()
 
     init {
         airportListLiveData.value = Utils.generateAirportList()
@@ -22,13 +23,16 @@ class MainViewModel: ViewModel(){
     }
 
 
-
     fun getBeginDateLiveData(): LiveData<Calendar>{
         return beginDateLiveData
     }
 
     fun getEndDateLiveData(): LiveData<Calendar>{
         return endDateLiveData
+    }
+
+    fun getInfoflightLiveData(): LiveData<String>{
+        return flighInfoLiveData
     }
 
     fun updateBeginCalendar(year :Int, month: Int, day:Int){
@@ -43,6 +47,10 @@ class MainViewModel: ViewModel(){
         endDateLiveData.value=calendar
     }
 
+
+    fun updateFightInfo(Name :String){
+        flighInfoLiveData.value=Name
+    }
     
 
 }

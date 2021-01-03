@@ -23,7 +23,7 @@ class FlightDetailFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var viewModel: FlightListViewModel
+    //private lateinit var viewModel: FlightListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +38,13 @@ class FlightDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-
-
+/*
         viewModel = ViewModelProvider(requireActivity()).get(FlightListViewModel::class.java)
         viewModel.getSelectedFlightNameLiveData().observe(this,{
-            flight_name.text = it
+           // flight_name.text = it
+            //viewModel.updateSelectedFlightName(it)
         })
-
-
+*/
         return inflater.inflate(R.layout.fragment_flight_detail, container, false)
     }
 

@@ -7,9 +7,19 @@
     android:background="#FFFFFF">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!--<TextView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:id="@+id/flight_name"
+         android:textAlignment="center"
+         android:textStyle="bold"
+         android:text="@string/hello_blank_fragment" />
+         -->
+
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/flight_name"
-        android:text="@string/hello_blank_fragment" />
+        android:name="com.example.fight_tracking.MapFragment"
+        android:id="@+id/mapFragment"
+        />
 </FrameLayout>
